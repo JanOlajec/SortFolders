@@ -28,6 +28,9 @@ def get_creation_date(file_path):
             for tag, value in exif_data.items():
                 if TAGS.get(tag) == 'DateTimeOriginal':
                     return value.split(' ')[0].replace(':', '-')
+        # If no EXIF data, use the file's last modified date
+        creation_time = os.path.getmtime(file_path)
+        return datetime.fromtimestamp(creation_time).strftime('%Y-%m-%d')
     except Exception as e:
         print(f"Error getting creation date for {file_path}: {e}")
 
